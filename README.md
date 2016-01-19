@@ -75,7 +75,7 @@ r0/1m/2016-01-20T03:22:00
 
 ```
 
-Using the binary format with mmsi from the [risky](https://github.com/amsa-code/risky) that would correspond to 35 bytes per report and zipping would reduce the file size by a factor of 8.
+Using the binary format with mmsi from the [risky](https://github.com/amsa-code/risky) project would correspond to 35 bytes per report and zipping would reduce the file size by a factor of 8.
 
 Thus a years data at 10 million positions a day (70% more than current rates in AMSA as of Jan 2016) would correspond to 10m x 35 /8 bytes * 200 * 365 = 8.75 GB a day = 3.2TB a year! 
 
