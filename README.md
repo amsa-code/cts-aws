@@ -81,7 +81,7 @@ Thus a years data at 10 million positions a day (70% more than current rates in 
 
 The cost of storing data in S3 Sydney is roughly $0.03 per GB.
 
-Starting from zero the accumulated cost of accumulating this data would be 
+Starting from zero the accumulated cost of storing this data would be 
 
 `n(n+1)/2 * 8.75 * 365/12 * 0.03 = 8n(n+1)` in dollars after `n` months
 
