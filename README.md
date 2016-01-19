@@ -26,6 +26,8 @@ Some back of envelope calculations based on 10 million reports a day indicate th
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 7d, 14d, 28d)
   * Id Key and Value
 
+So for the example the following files of positions would be processed.
+
 
 
 
