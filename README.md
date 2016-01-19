@@ -16,15 +16,10 @@ Some back of envelope calculations based on 10 million reports a day indicate th
 * Accumulate reports over 24 hours (remembering some reports have arrival latency like positions sent via satellite)
 * Send accumulated file to AWS for processing
 * In AWS accumulate reports in memory maps in the following categories:
-** GeographicHash
-** TimeBlock
-** Id
+  * GeographicHash (lengths 0 to 10 (~1m2))
+  * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 7d, 14d, 28d)
+  * Id
 
-One report would be registered against many keys including all combinations of:
-
-* GeographicHash as a of lengths 0 to 10 (~1m2)
-* TimeBlock 1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 7d, 14d, 28d
-* Identifier
 
 
 
