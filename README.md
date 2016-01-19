@@ -19,8 +19,9 @@ For example might want all vessel positions for
 Some back of envelope calculations based on 10 million reports a day indicate that using DynamoDB (SSD scalable storage) might cost thousands of dollars per month. If a scalable solution using S3 that has acceptable performance characteristics can be found then the cost would probably be 1/100 of that.
 
 ##Option 1
-* Accumulate reports over 24 hours (remembering some reports have arrival latency like positions sent via satellite)
-* Send accumulated file to AWS for processing
+* Accumulate reports on disk locally (remembering some reports have arrival latency like positions sent via satellite)
+* Rollover report files every day
+* On rollover send the file for the previous day (ending 24 hours ago) to AWS for processing
 * In AWS accumulate reports in memory maps in the following categories:
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 8d, 16d, 32d)
