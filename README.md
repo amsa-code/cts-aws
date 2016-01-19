@@ -26,6 +26,7 @@ Some back of envelope calculations based on 10 million reports a day indicate th
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 8d, 16d, 32d, 64d, 128d, 1y)
   * Id Key and Value
+* write lists of reports to files in s3 as per below
 
 Given a lat long point (-42, 135) at 2016-01-20T03:22:07 UTC its full resolution geohash is `r081040h2081`.
 
