@@ -22,7 +22,7 @@ Some back of envelope calculations based on 10 million reports a day indicate th
 * Accumulate reports over 24 hours (remembering some reports have arrival latency like positions sent via satellite)
 * Send accumulated file to AWS for processing
 * In AWS accumulate reports in memory maps in the following categories:
-  * GeographicHash (lengths 0 to 10 (~1m2))
+  * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 8d, 16d, 32d)
   * Id Key and Value
 
@@ -60,7 +60,7 @@ The time blocks are:
 ...
 ```
 
-So we would want the position to appear in time order (?) in these files:
+So we would want the position to appear in time order (?) in these files (170 of them!):
 
 ```
 r/1s/2016-01-20T03:22:07
