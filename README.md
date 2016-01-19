@@ -85,6 +85,8 @@ Starting from zero the accumulated cost of accumulating this data would be `n(n+
 
 
 ```
+months   $
+----------
  1m      1
  2m      3
  6m     21
