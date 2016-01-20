@@ -90,8 +90,10 @@ r0/block-30s/sample-30s/2016-01-20T03:22:00
 ```
 
 The meaning of block-n/sample-m/T is 
-* the reports are sampled by individual vessel to every m time units (max one per m time unit)
+* the reports are sampled by individual vessel to every m time units (max one report by identifier per m time units)
 * the reports are for a time t such that  T &lte; t &lt; T + n time units
+
+Note that it doesn't make sense to retain sampled copies for time periods less than the sample period.
 
 Now make another copy of the reports including the identifier key and value in the s3 path (there may be multiple identifiers so might make a copy for each):
 
