@@ -31,9 +31,11 @@ The approach is:
 * Now build geospatial, time and identifier indexes in s3
 * In AWS accumulate reports in memory maps in the following categories:
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
-  * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 8d, 16d, 32d, 64d, 128d, 1y)
+  * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d)
   * Id Key and Value
 * write lists of reports to files in s3 as per below (search indexes!)
+
+Note: at some point we will also be interested in TimeBlocks of 2d, 4d, 8d, 16d, 32d, 64d, 128d, 1y but this may well involve map reduce jobs to produce. The big limitation preventing us including them now is that you cannot append data to an object in S3, you must completely rewrite it. This is not something we will want to do often for some of the bigger files like `r/1s/2015-01-01T00:00:00`.
 
 Given a lat long point (-42, 135) at 2016-01-20T03:22:07 UTC its full resolution geohash is `r081040h2081`.
 
@@ -70,16 +72,26 @@ The time blocks are:
 So we would want the position to appear in time order (?) in these files (200 of them!):
 
 ```
-r/1s/2016-01-20T03:22:07
-r/30s/2016-01-20T03:22:00
-r/1m/2016-01-20T03:22:00
+r/block-1s/sample-all/2016-01-20T03:22:07
+r/block-30s/sample-all/2016-01-20T03:22:00
+r/block-30s/sample-1s/2016-01-20T03:22:00
+r/block-30s/sample-30s/2016-01-20T03:22:00
+r/block-1m/sample-all/2016-01-20T03:22:00
+r/block-1m/sample-1s/2016-01-20T03:22:00
+r/block-1m/sample-30s/2016-01-20T03:22:00
+r/block-1m/sample-1m/2016-01-20T03:22:00
 ...
-r0/1s/2016-01-20T03:22:07
-r0/30s/2016-01-20T03:22:00
-r0/1m/2016-01-20T03:22:00
+r0/block-1s/sample-all/2016-01-20T03:22:07
+r0/block-30s/sample-all/2016-01-20T03:22:00
+r0/block-30s/sample-1s/2016-01-20T03:22:00
+r0/block-30s/sample-30s/2016-01-20T03:22:00
 ...
 
 ```
+
+The meaning of block-n/sample-m/T is 
+* the reports are sampled by individual vessel to every m time units (max one per m time unit)
+* the reports are for a time t such that  T &lte; t &lt; T + n time units
 
 Now make another copy of the reports including the identifier key and value in the s3 path (there may be multiple identifiers so might make a copy for each):
 
