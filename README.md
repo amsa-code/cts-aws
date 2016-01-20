@@ -2,7 +2,7 @@
 Scalable implementation of craft tracking system using AWS.
 
 ##Requirements
-Given position reports with lat, long and time need to quickly return results of queries based on
+Given position reports with lat, long and time would like to make performant (see below) queries based on
 * ids
 * geographic bounding box
 * time range
@@ -15,13 +15,20 @@ For example might want all vessel positions for
 * for the month of December
 * sampled hourly
 
+##Performance
+* low latency queries (<1s would be excellent, <2s good)
+* data streamed to client as quickly as available bandwidth allows
+
 ##Design
 Some back of envelope calculations based on 10 million reports a day indicate that using DynamoDB (SSD scalable storage) might cost thousands of dollars per month. If a scalable solution using S3 that has acceptable performance characteristics can be found then the cost would probably be 1/100 of that.
 
-###Option 1
+Lets explore a design using S3. We can go for gold on using storage because S3 storage is so cheap ($0.03 per GB per month). This enables geospatial indexing using geohashes and multiple copies by identifier and time block can be made as indexes without great penalty in terms of cost.
+
+The approach is:
 * Accumulate reports on disk locally (remembering some reports have arrival latency like positions sent via satellite)
 * Rollover report files every day
 * On rollover send the file for the previous day (ending 24 hours ago) to AWS for processing
+* Now build geospatial, time and identifier indexes in s3
 * In AWS accumulate reports in memory maps in the following categories:
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d, 2d, 4d, 8d, 16d, 32d, 64d, 128d, 1y)
@@ -32,6 +39,7 @@ Given a lat long point (-42, 135) at 2016-01-20T03:22:07 UTC its full resolution
 
 The hashes to increasing accuracy are:
 ```
+ALL
 r
 r0
 r08
@@ -56,9 +64,6 @@ The time blocks are:
 2016-01-20T00:00:00 8h
 2016-01-20T00:00:00 12h
 2016-01-20T00:00:00 1d
-2016-01-20T00:00:00 2d
-2016-01-20T00:00:00 4d
-2016-01-16T00:00:00 8d
 ...
 ```
 
@@ -76,37 +81,37 @@ r0/1m/2016-01-20T03:22:00
 
 ```
 
+Now make another copy of the reports including the identifier key and value in the s3 path (there may be multiple identifiers so might make a copy for each):
+
+```
+mmsi123456789/r/1s/2016-01-20T03:22:07
+mmsi123456789/r/30s/2016-01-20T03:22:00
+mmsi123456789/r/1m/2016-01-20T03:22:00
+```
+That makes 400 copies of each report are copied into various indexes (assuming a single identifier per report).
+
 Using the binary format with mmsi from the [risky](https://github.com/amsa-code/risky) project would correspond to 35 bytes per report and zipping would reduce the file size by a factor of 8.
 
-Thus a years data at 10 million positions a day (70% more than current rates in AMSA as of Jan 2016) would correspond to 10m x 35 /8 bytes * 200 * 365 = 8.75 GB a day = 3.2TB a year! 
+Thus a years data at 10 million positions a day (70% more than current rates in AMSA as of Jan 2016) would correspond to 10m x 35 /8 bytes * 400 * 365 = 17.5 GB a day = 6.4TB a year! 
 
-The cost of storing data in S3 Sydney is roughly $0.03 per GB per month.
+The cost of storing data in S3 Sydney is roughly $US0.03 per GB per month.
 
 Starting from zero the accumulated cost of storing this data would be 
 
-`n(n+1)/2 * 8.75 * 365/12 * 0.03 = 8n(n+1)` in dollars after `n` months
+`n(n+1)/2 * 17.5 * 365/12 * 0.03 = 16n(n+1)` in dollars after `n` months
 
 Accumlating the cost of the system over time:
 
 ```
-months   $
+months $US
 ----------
- 1m      1
- 2m      3
- 6m     21
-12m     78
-24m    300
-36m    666
-48m   1176
+ 1m      2
+ 2m      6
+ 6m     42
+12m    166
+24m    600
+36m   1332
+48m   2352
 ```
 
-
-
-
-
-
-
-
-
-
-
+A total storage cost of $2352 after 4 years seems quite reasonable given the db has 25.6TB of data! 
