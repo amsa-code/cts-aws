@@ -1,7 +1,5 @@
 package au.gov.amsa.cts2;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -10,9 +8,14 @@ public final class AccumulatorTest {
     @Test
     public void test() throws Exception {
         Report report = createReport();
-        List<String> list = Accumulator.getKeys(report);
-        list.forEach(System.out::println);
-        System.out.println("list size = " + list.size());
+        Accumulator a = new Accumulator();
+        a.add(report);
+        for (Key key : a.map().keySet()) {
+            System.out.print(key);
+            System.out.println(" -->");
+            System.out.print("  ");
+            System.out.println(a.map().get(key));
+        }
     }
 
     private static Report createReport() {
