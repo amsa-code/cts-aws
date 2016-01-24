@@ -1,5 +1,7 @@
 package au.gov.amsa.cts2;
 
+import java.io.File;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -16,6 +18,7 @@ public final class AccumulatorTest {
             System.out.print("  ");
             System.out.println(a.map().get(key));
         }
+        a.writeToFiles(new File("target"));
     }
 
     private static Report createReport() {

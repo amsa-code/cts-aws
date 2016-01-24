@@ -29,7 +29,7 @@ The approach is:
 * Rollover report files every day
 * On rollover send the file for the previous day (ending 24 hours ago) to AWS for processing
 * Now build geospatial, time and identifier indexes in s3
-* In AWS accumulate reports in memory maps in the following categories:
+* In AWS accumulate reports in local files in the following categories:
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d)
   * Id Key and Value
