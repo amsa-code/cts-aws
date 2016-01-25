@@ -14,8 +14,8 @@ message Position {
   float latitude = 4;
   float longitude = 5 ;
   int64 timeEpochMs = 6;
-  sint32 headingDegrees = 7; // 100000 = not present
-  sint32 courseDegrees = 8; // 100000 = not present
+  int32 headingDegrees = 7; // 0 <= x < 360
+  int32 courseDegrees = 8; // 0 <= x < 360
   float speedKnots = 9; // -1 = not present
 }
 
