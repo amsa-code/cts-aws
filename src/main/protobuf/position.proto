@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package tutorial;
+package cts2;
 
 option java_package = "au.gov.amsa.cts2.proto";
 option java_outer_classname = "PositionProtos";
