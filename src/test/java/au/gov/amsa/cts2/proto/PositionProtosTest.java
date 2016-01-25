@@ -1,4 +1,4 @@
-package au.gov.amsa.cts2;
+package au.gov.amsa.cts2.proto;
 
 import org.junit.Test;
 

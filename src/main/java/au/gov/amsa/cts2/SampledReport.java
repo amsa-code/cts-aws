@@ -13,6 +13,11 @@ public class SampledReport implements Report {
         this.report = report;
         this.sample = sample;
     }
+    
+    @Override
+    public int identifierType() {
+     return report.identifierType();
+    }
 
     @Override
     public String identifier() {

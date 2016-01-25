@@ -23,10 +23,14 @@ public final class AccumulatorTest {
 
     private static Report createReport() {
         return new Report() {
-
+            @Override
+            public int identifierType() {
+                return 1;//mmsi
+            }
+            
             @Override
             public String identifier() {
-                return "mmsi123456789";
+                return "123456789";
             }
 
             @Override

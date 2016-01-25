@@ -10,7 +10,7 @@ message Position {
   oneof identifierValue {
   	int64 valueInteger = 2;
   	string valueString = 3;
-  }   
+  }
   float latitude = 4;
   float longitude = 5 ;
   int64 timeEpochMs = 6;

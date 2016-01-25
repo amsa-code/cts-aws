@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public interface Report {
 
+    int identifierType();
+    
     String identifier();
 
     double lat();
