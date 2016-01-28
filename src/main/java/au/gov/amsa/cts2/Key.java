@@ -1,5 +1,8 @@
 package au.gov.amsa.cts2;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+
 class Key {
     final Sample block;
     final Sample sample;
@@ -49,8 +52,8 @@ class Key {
 
     @Override
     public String toString() {
-        return "Key [block=" + block + ", sample=" + sample + ", time=" + time + ", geohash="
-                + geohash + "]";
+        return "Key [block=" + block + ", sample=" + sample + ", time="
+                + Instant.ofEpochMilli(time).atZone(ZoneOffset.UTC) + ", geohash=" + geohash + "]";
     }
 
 }

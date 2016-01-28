@@ -7,18 +7,22 @@ public final class AccumulatorTest {
 
     @Test
     public void test() throws Exception {
-        Report report = createReport();
         Accumulator a = new Accumulator();
-        a.add(report);
+        a.add(createReport("2016-01-19T03:47:07"));
+        a.add(createReport("2016-01-19T03:47:57"));
+        a.add(createReport("2016-01-19T03:48:04"));
+        a.add(createReport("2016-01-19T04:48:04"));
         for (Key key : a.map().keySet()) {
             System.out.print(key);
             System.out.println(" -->");
             System.out.print("  ");
             System.out.println(a.map().get(key));
         }
+        System.out.println("keys " + a.map().keySet().size());
+        System.out.println("reports " + a.map().size());
     }
 
-    private static Report createReport() {
+    private static Report createReport(String dateTime) {
         return new Report() {
 
             @Override
@@ -38,7 +42,7 @@ public final class AccumulatorTest {
 
             @Override
             public long time() {
-                return DateTime.parse("2016-01-19T03:47:07").getMillis();
+                return DateTime.parse(dateTime).getMillis();
             }
 
         };
