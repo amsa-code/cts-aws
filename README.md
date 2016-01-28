@@ -29,7 +29,7 @@ The approach is:
 * Rollover report files every day
 * On rollover send the file for the previous day (ending 24 hours ago) to AWS for processing
 * Now build geospatial, time and identifier indexes in s3
-* In AWS accumulate reports in memory maps in the following categories:
+* In AWS accumulate reports in local files in the following categories:
   * GeographicHash (lengths 0 to 10 (~1m<sup>2</sup>))
   * TimeBlock (1s, 30s, 1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 8hr, 12hr, 1d)
   * Id Key and Value
@@ -129,3 +129,28 @@ months $US
 ```
 
 A total storage cost of $2352 after 4 years seems quite reasonable given the db has 25.6TB of data! 
+
+Another design, more storage efficient
+--------------------------------------
+
+Limitations to consider
+* S3 latency (from EC2) - wild guess 200ms
+* S3 to EC2 transfer speed single thread - 12MB/s
+* S3 read speed speed in parallel from an EC2 instance (throttled according to instance type) - up to 50MB/s (large instance)
+
+Suppose a geographic region is coverage by M hashes. So to get the data for a region and a time range , sample size:
+
+```
+get the covering block and start times
+for each covering geohash
+  for each start time
+     for each block time 
+
+* Given a day's data, make copies to all the files locally as described above.
+* for each geohash and sample time and start time
+* Start at geohash length 1 and maximum block time and drill down in block time till the size of the file is >=N bytes and the next block time size file is <N bytes. N might be 1 million for instance. 
+* Make a note of that file. If the file size at the start is already < N then that file is the selected file.
+* for all the block time values less than that one (for the given geohash and sample time) make their files *point* (mechanism to be described later) to the selected file
+* for all the block time values less than the block time of the selected file, add a pointer to the selected file to a list that is the file entry for that block time.
+
+

@@ -1,5 +1,7 @@
 package au.gov.amsa.cts2;
 
+import java.io.File;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -20,14 +22,19 @@ public final class AccumulatorTest {
         }
         System.out.println("keys " + a.map().keySet().size());
         System.out.println("reports " + a.map().size());
+        a.writeToFiles(new File("target"));
     }
 
     private static Report createReport(String dateTime) {
         return new Report() {
-
+            @Override
+            public int identifierType() {
+                return 1;//mmsi
+            }
+            
             @Override
             public String identifier() {
-                return "mmsi123456789";
+                return "123456789";
             }
 
             @Override
