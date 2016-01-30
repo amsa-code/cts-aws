@@ -174,3 +174,33 @@ else
   for each partition assign a new storage pointer and set the pointer set recursively for all children in the partition to contain only the new storage pointer
   add the storage pointer for each partition to the pointer set of N
 ```
+
+## Example
+Tree structure for the one report at a single sample rate from above would look like this:
+
+```
+r
+0
+8
+1
+0
+4
+0
+h
+2
+0
+block-24h-2016-01-20T03:22:07 UTC
+block-24h-2016-01-20T00:00:00 UTC
+block-12h-2016-01-20T00:00:00 UTC
+block-06h-2016-01-20T00:00:00 UTC
+block-03h-2016-01-20T03:00:00 UTC
+block-01h-2016-01-20T03:00:00 UTC
+block-30m-2016-01-20T03:00:00 UTC
+block-15m-2016-01-20T03:15:00 UTC
+block-05m-2016-01-20T03:20:00 UTC
+block-01m-2016-01-20T03:22:00 UTC
+block-30s-2016-01-20T03:22:00 UTC
+block-10s-2016-01-20T03:22:00 UTC
+block-05s-2016-01-20T03:22:05 UTC
+block-01s-2016-01-20T03:22:07 UTC
+```
