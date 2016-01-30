@@ -153,4 +153,23 @@ for each covering geohash
 * for all the block time values less than that one (for the given geohash and sample time) make their files *point* (mechanism to be described later) to the selected file
 * for all the block time values less than the block time of the selected file, add a pointer to the selected file to a list that is the file entry for that block time.
 
+Abstraction of the mapping of a heirarchy to chunked storage
+-------------------------------------------------------------
 
+A tree data structure has a single root node and branches down.
+
+Each node ultimately needs to point at one or more storage objects that contain its reports and whose individual size is <=`m` (but on average close to `m`).
+
+Start at the leaf nodes and work up.
+
+Given node N, 
+
+```
+if size(N) <= m then 
+  the pointer set for N should contain itself only and all the children of N (recursively) should point to just N.
+else  
+  for all children of N that have size >= m add their pointer sets to the pointer set of N
+  partition the children of N that have size < m so that the number of partitions is minimized and the total size of each partition is <= m
+  for each partition assign a new storage pointer and set the pointer set recursively for all children in the partition to contain only the new storage pointer
+  add the storage pointer for each partition to the pointer set of N
+```
