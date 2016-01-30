@@ -145,6 +145,7 @@ get the covering block and start times
 for each covering geohash
   for each start time
      for each block time 
+```
 
 * Given a day's data, make copies to all the files locally as described above.
 * for each geohash and sample time and start time
