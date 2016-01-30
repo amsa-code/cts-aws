@@ -167,11 +167,17 @@ Given node N,
 
 ```
 if size(N) <= m then 
-  the pointer set for N should contain itself only and all the children of N (recursively) should point to just N.
+  the pointer set for N should contain itself only
+   and all the children of N (recursively) should point to just N.
 else  
-  for all children of N that have size >= m add their pointer sets to the pointer set of N
-  partition the children of N that have size < m so that the number of partitions is minimized and the total size of each partition is <= m
-  for each partition assign a new storage pointer and set the pointer set recursively for all children in the partition to contain only the new storage pointer
+  for all children of N that have size >= m add their pointer
+    sets to the pointer set of N
+  partition the children of N that have size < m so that the
+    number of partitions is minimized and the total size of
+    each partition is <= m
+  for each partition assign a new storage pointer and set the
+    pointer set recursively for all children in the partition
+    to contain only the new storage pointer
   add the storage pointer for each partition to the pointer set of N
 ```
 
