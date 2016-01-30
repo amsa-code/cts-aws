@@ -203,3 +203,6 @@ block-10s-2016-01-20T03:22:00 UTC
 block-05s-2016-01-20T03:22:05 UTC
 block-01s-2016-01-20T03:22:07 UTC
 ```
+
+First pass across a days worth of data would establish the tree structure and the counts at each node only. 
+Parameters might be size(N) = count and m = 250,000 (which equates a storage object of ~1MB based on gzipped 33 byte reports).
