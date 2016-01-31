@@ -185,16 +185,6 @@ else
 Tree structure for the one report at a single sample rate from above would look like this:
 
 ```
-r
-0
-8
-1
-0
-4
-0
-h
-2
-0
 block-24h-2016-01-20T00:00:00 UTC
 block-12h-2016-01-20T00:00:00 UTC
 block-06h-2016-01-20T00:00:00 UTC
@@ -209,6 +199,22 @@ block-10s-2016-01-20T03:22:00 UTC
 block-05s-2016-01-20T03:22:05 UTC
 block-01s-2016-01-20T03:22:07 UTC
 ```
+
+and another tree for the 24h block only:
+
+```
+r
+r0
+r08
+r081
+r0810
+r08104
+r081040h
+r081040h2
+r081040h20
+```
+
+Hmm not sure that this is getting us anywhere yet.
 
 First pass across a days worth of data would establish the tree structure and the counts at each node only. 
 Parameters might be size(N) = count and m = 250,000 (which equates a storage object of ~1MB based on gzipped 33 byte reports).
