@@ -1,7 +1,7 @@
 # cts-aws
 Scalable implementation of craft tracking system using AWS.
 
-##Requirements
+## Requirements
 Given position reports with lat, long and time would like to make performant (see below) queries based on
 * ids
 * geographic bounding box
@@ -15,11 +15,11 @@ For example might want all vessel positions for
 * for the month of December
 * sampled hourly
 
-##Performance
+## Performance
 * low latency queries (<1s would be excellent, <2s good)
 * data streamed to client as quickly as available bandwidth allows
 
-##Design
+## Design
 Some back of envelope calculations based on 10 million reports a day indicate that using DynamoDB (SSD scalable storage) might cost thousands of dollars per month. If a scalable solution using S3 that has acceptable performance characteristics can be found then the cost would probably be 1/100 of that.
 
 Lets explore a design using S3. We can go for gold on using storage because S3 storage is so cheap ($0.03 per GB per month). This enables geospatial indexing using geohashes and multiple copies by identifier and time block can be made as indexes without great penalty in terms of cost.
