@@ -1,4 +1,7 @@
 # cts-aws
+
+**OBSOLETE**: see https://github.com/amsa-code/cts2 instead
+
 Scalable implementation of craft tracking system using AWS.
 
 ## Requirements
